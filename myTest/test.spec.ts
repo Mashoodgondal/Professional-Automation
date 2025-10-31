@@ -66,7 +66,7 @@
 
 
 
-import {test,expect, Locator, Browser} from '@playwright/test'
+import {test,expect, Locator} from '@playwright/test'
 // import { chromium } from '@playwright/test'
 
 test.describe('Automate landing page of dynamic data',()=>{
@@ -79,9 +79,61 @@ test.describe('Automate landing page of dynamic data',()=>{
       const heading : Locator= page.locator('h1')
       await expect(heading).toHaveText('User Information Form')
   })
+  test('check all element are visible or not', async({page})=>{
+    await expect(page.locator("#userForm")).toBeVisible()
+    await expect(page.locator("#name")).toBeVisible()
+    await expect(page.locator("#email")).toBeVisible()
+    await expect(page.locator("#contact")).toBeVisible()
+    await expect(page.locator("button[type='submit']")).toBeVisible()
+  })
+  test('fill input fields and test them',async({page})=>{
+    await page.fill('#name','ali')
+    await page.fill('#email','ali@gmail.com')
+    await page.fill('#contact','098493')
+    await page.fill('#about','A simple test')
+    await page.click('button[type="submit"]')
+    const tableRow = page.locator('#tableBody tr')
+    await expect(tableRow).toHaveCount(1)
+    const storedData = await page.evaluate(() => {
+      const data = localStorage.getItem('users');
+      return data ? JSON.parse(data) : [];
+    });
+    expect(storedData.length).toBe(1)
+    expect(storedData[0].name).toBe('ali')
+    await page.click('text=Edit')
+    await page.fill('#name','new name')
+    await page.click('button[type="submit"]')
+    const updatedName = await page.locator('#tableBody tr td:nth-child(2)').textContent()
+    expect(updatedName).toBe('new name')
+  })
+
+  test('chek the delete functionality',async({page})=>{
+    await page.fill('#name','ali')
+    await page.fill('#email','ali@gmail.com')
+    await page.fill('#contact','098493')
+    await page.fill('#about','A simple test')
+    await page.click('button[type="submit"]')
+    page.once('dialog',(dialog)=>dialog.accept())
+    await page.click('text=Delete')
+    await expect(page.locator('#tableBody tr ')).toHaveCount(0)
+  })
+  test('check is all field are empty after submit',async({page})=>{
+    await page.fill('#name', 'Reset User');
+    await page.fill('#email', 'reset@example.com');
+    await page.fill('#contact', '555555');
+    await page.fill('#about', 'Check reset');
+    await page.click('button[type="submit"]');
+    await  expect(page.locator('#name')).toHaveValue('')
+    await  expect(page.locator('#email')).toHaveValue('')
+    await  expect(page.locator('#contact')).toHaveValue('')
+  })
+  test('check is submit before entring any value',async({page})=>{
+   await page.click('button[type="submit"]')
+    const tableRow = page.locator('#tableBody tr')
+    await expect(tableRow).toHaveCount(0)
+  })
 
 })
-
 
 
 
@@ -134,10 +186,10 @@ test.describe('Automate landing page of dynamic data',()=>{
 //     await page.fill('#about', 'Persistent user');
 //     await page.click('button[type="submit"]');
   
-//     const storedData = await page.evaluate(() => {
-//       const data = localStorage.getItem('users');
-//       return data ? JSON.parse(data) : [];
-//     });
+    // const storedData = await page.evaluate(() => {
+    //   const data = localStorage.getItem('users');
+    //   return data ? JSON.parse(data) : [];
+    // });
   
 //     expect(storedData.length).toBe(1);
 //     expect(storedData[0].name).toBe('Jane Doe');
@@ -174,11 +226,11 @@ test.describe('Automate landing page of dynamic data',()=>{
 //   });
 
 //   test('should reset form after submit', async ({ page }) => {
-//     await page.fill('#name', 'Reset User');
-//     await page.fill('#email', 'reset@example.com');
-//     await page.fill('#contact', '555555');
-//     await page.fill('#about', 'Check reset');
-//     await page.click('button[type="submit"]');
+    // await page.fill('#name', 'Reset User');
+    // await page.fill('#email', 'reset@example.com');
+    // await page.fill('#contact', '555555');
+    // await page.fill('#about', 'Check reset');
+    // await page.click('button[type="submit"]');
 
 //     await expect(page.locator('#name')).toHaveValue('');
 //     await expect(page.locator('#email')).toHaveValue('');
