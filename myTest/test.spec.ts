@@ -66,20 +66,20 @@
 
 
 
-import {test,expect, Locator, Browser, Page} from '@playwright/test'
-import { chromium } from '@playwright/test'
+import {test,expect, Locator, Browser} from '@playwright/test'
+// import { chromium } from '@playwright/test'
 
 test.describe('Automate landing page of dynamic data',()=>{
-  test.beforeEach(async({page})=>{
-    const browser:Browser= await chromium.launch({headless:false})
-    await browser.newPage()
+  test.beforeEach(async({page ,browserName})=>{
+    test.skip(browserName !== 'chromium','only run on chromium')
+    // await browser.newPage()
     await page.goto('http://127.0.0.1:5500/index.html')
   })
   test('check heading',async({page})=>{
       const heading : Locator= page.locator('h1')
       await expect(heading).toHaveText('User Information Form')
   })
-  
+
 })
 
 
