@@ -182,27 +182,25 @@ import { test, expect } from '@playwright/test';
 test.describe('File Manager - Negative Test Cases', () => {
   
   test.beforeEach(async ({ page }) => {
-    // Load the page before each test
+   
     await page.goto('http://127.0.0.1:5500/index.html');
   });
 
   test('should show error when trying to upload without selecting a file', async ({ page }) => {
     
-    // Click Upload without choosing a file
-    // await page.getByRole('button', { name: 'Upload' }).click();
     await page.getByRole('button', { name: 'Upload', exact: true }).click();
 
-    // Expect an error message in red text
+    
     const uploadStatus = page.locator('#uploadStatus');
     await expect(uploadStatus).toHaveText('⚠️ Please select a file to upload.');
     await expect(uploadStatus).toHaveClass(/text-red-500/);
   });
 
   test('should show error when trying to download without uploading a file', async ({ page }) => {
-    // Click download button without uploading
+   
     await page.getByRole('button', { name: 'Download Uploaded File' }).click();
 
-    // Expect an error message
+    
     const downloadStatus = page.locator('#downloadStatus');
     await expect(downloadStatus).toHaveText('❌ No file uploaded yet. Please upload first.');
     await expect(downloadStatus).toHaveClass(/text-red-500/);
