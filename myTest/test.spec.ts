@@ -67,38 +67,6 @@
 
 
 
-//     // For now, we test no result appeared:
-//     const resultBox = page.locator('#result');
-//     await expect(resultBox).not.toContainText('Form Submitted');
-//     dialog.dismiss();
-//   });
-// });
-
-
-
-//     // For now, we test no result appeared:
-//     const resultBox = page.locator('#result');
-//     await expect(resultBox).not.toContainText('Form Submitted');
-//     dialog.dismiss();
-//   });
-// });
-
-//     // For now, we test no result appeared:
-//     const resultBox = page.locator('#result');
-//     await expect(resultBox).not.toContainText('Form Submitted');
-//     dialog.dismiss();
-//   });
-// });
-
-//     // For now, we test no result appeared:
-//     const resultBox = page.locator('#result');
-//     await expect(resultBox).not.toContainText('Form Submitted');
-//     dialog.dismiss();
-//   });
-// });
-
-
-
 
 
 
