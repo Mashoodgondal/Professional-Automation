@@ -70,7 +70,22 @@
   //     dialog.dismiss();
   //   });
   // });
+  
 
+
+
+  //     const [dialog] = await Promise.all([
+    //       page.waitForEvent('dialog'),
+    //       page.click('#submit-btn'),
+    //     ]);
+    //     // Since you didn’t define validation in JS, you can add later.
+    //     // For now, we test no result appeared:
+    //     const resultBox = page.locator('#result');
+    //     await expect(resultBox).not.toContainText('Form Submitted');
+    //     dialog.dismiss();
+    //   });
+    // });
+  
 
 //     const [dialog] = await Promise.all([
   //       page.waitForEvent('dialog'),
